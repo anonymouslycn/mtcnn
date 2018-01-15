@@ -214,6 +214,15 @@ def drawBoxes(im, boxes):
         cv2.rectangle(im, (int(x1[i]), int(y1[i])), (int(x2[i]), int(y2[i])), (0,255,0), 1)
     return im
 
+
+def drawPoints(im, boxes):
+    # cv2.circle(im,(centerX,centerY),r,white)
+    print boxes.shape[0]
+    for j in range(boxes.shape[0]):
+        for i in range(0,boxes[j].shape[0]/2,):
+            cv2.circle(im, (int(boxes[j][i]), int(boxes[j][i+5])),2, (0,255,0),-1)
+    return im
+
 from time import time
 _tstart_stack = []
 def tic():
@@ -550,9 +559,10 @@ def main():
         #    shutil.copy(imgpath, '/home/duino/Videos/3/disdata/negetive/'+os.path.split(imgpath)[1] )
 
         # useless org source use wrong values from boundingboxes,case uselsee rect is drawed 
-#        for i in range(len(boundingboxes)):
-#            cv2.rectangle(img, (int(boundingboxes[i][0]), int(boundingboxes[i][1])), (int(boundingboxes[i][2]), int(boundingboxes[i][3])), (0,255,0), 1)    
-
+        # for i in range(len(boundingboxes)):
+        #     cv2.rectangle(img, (int(boundingboxes[i][0]), int(boundingboxes[i][1])), (int(boundingboxes[i][2]), int(boundingboxes[i][3])), (0,255,0), 1)    
+        
+        mg = drawPoints(img, points)
         img = drawBoxes(img, boundingboxes)
         cv2.imshow('img', img)
         ch = cv2.waitKey(0) & 0xFF
